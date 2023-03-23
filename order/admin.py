@@ -6,4 +6,4 @@ from .models import OrderItem
 class OrderItemAdmin(admin.ModelAdmin):
     pass
 
-admin.register(OrderItem, OrderItemAdmin)
+admin.site.register(OrderItem, OrderItemAdmin)
