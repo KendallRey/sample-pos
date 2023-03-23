@@ -34,7 +34,7 @@ DEBUG = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 ALLOWED_HOSTS = [
-    '*',
+    'www.mathaino.website',
     ]
 
 
@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'account',
+    'cart',
 ]
 
 MIDDLEWARE = [
