@@ -170,5 +170,4 @@ files/
 static/
 
 # migrations
-base/migrations/
-items/migrations/
+account/migrations/
