@@ -5,10 +5,15 @@ from pos.models import BaseModelWithUUID
 
 # Create your models here.
 class ShopCategory(BaseModelWithUUID):
+    class Meta :
+        verbose_name = 'Shop Category'
+        verbose_name_plural = 'Shop Categories'
 
     name = models.CharField(verbose_name='Shop Category Name', max_length=120, null=False, blank=False)
     description = models.CharField(verbose_name='Shop Category Description', max_length=180, null=False, blank=False)
 
+    def __str__(self):
+        return f'{self.name}'
 
 class Shop(BaseModelWithUUID):
 
