@@ -171,3 +171,4 @@ static/
 
 # migrations
 account/migrations/
+cart/migrations/
