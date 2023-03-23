@@ -173,3 +173,4 @@ static/
 account/migrations/
 cart/migrations/
 order/migrations/
+shop/migrations/
