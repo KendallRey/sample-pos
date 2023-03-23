@@ -6,6 +6,10 @@ from shop.models import Shop
 
 class ItemCategory(BaseModelWithUUID):
 
+    class Meta :
+        verbose_name = 'Item Category'
+        verbose_name_plural = 'Item Categories'
+
     shop = models.ForeignKey(to=Shop, null=True, blank=False, on_delete=models.SET_NULL)
     name = models.CharField(max_length=180, null=False, blank=False)
     description = models.CharField(max_length=200, null=False, blank=False)
@@ -18,7 +22,8 @@ class Item(BaseModelWithUUID):
     shop = models.ForeignKey(to=Shop, null=True, blank=False, on_delete=models.SET_NULL)
     name = models.CharField(max_length=180, null=False, blank=False)
     price = models.DecimalField(max_digits=9, decimal_places=2, blank=False, default=0)
-    stock = models.IntegerField(null=False, blank=False, default=0) 
+    stock = models.IntegerField(null=False, blank=False, default=0)
+    discount = models.DecimalField(max_digits=3, decimal_places=2, blank=True, default=0)
 
     def __str__(self):
         return f'{self.name} - {self.shop.name}'
