@@ -12,7 +12,7 @@ class OrderItem(BaseModelWithUUID):
     # item = models.ForeignKey(to=Item, null=True, blank=False, default=None, on_delete=models.SET_NULL)
 
     quantity = models.IntegerField(verbose_name="Order Item Quantity", null=False, blank=True, default=1)
-    status = models.CharField(verbose_name="Order Item Status")
+    status = models.CharField(max_length=40, verbose_name="Order Item Status")
     date_placed = models.DateTimeField(verbose_name="Date Order Placed", auto_now_add=True, blank=True)
     date_out = models.DateField(verbose_name="Date Order Out for Delivery", null=True, blank=True, default=None)
     date_received = models.DateField(verbose_name="Date Order Received", null=True, blank=True, default=None)
