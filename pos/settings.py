@@ -33,7 +33,9 @@ DEBUG = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'www.mathaino.website',
+    ]
 
 
 # Application definition
