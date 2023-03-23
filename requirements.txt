@@ -14,3 +14,5 @@ django-oauth-toolkit
 django-filter
 django-cors-headers
 python-dotenv
+djangorestframework
+markdown 

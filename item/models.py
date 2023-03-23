@@ -22,8 +22,9 @@ class Item(BaseModelWithUUID):
     shop = models.ForeignKey(to=Shop, null=True, blank=False, on_delete=models.SET_NULL)
     name = models.CharField(max_length=180, null=False, blank=False)
     price = models.DecimalField(max_digits=9, decimal_places=2, blank=False, default=0)
+    categories = models.ManyToManyField(to=ItemCategory, blank=True, related_name="categories")
     stock = models.IntegerField(null=False, blank=False, default=0)
-    discount = models.DecimalField(max_digits=3, decimal_places=2, blank=True, default=0)
+    discount = models.DecimalField(max_digits=5, decimal_places=2, blank=True, default=0)
 
     def __str__(self):
         return f'{self.name} - {self.shop.name}'
