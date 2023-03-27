@@ -27,4 +27,8 @@ class Item(BaseModelWithUUID):
     discount = models.DecimalField(max_digits=5, decimal_places=2, blank=True, default=0)
 
     def __str__(self):
-        return f'{self.name} - {self.shop.name}'
+        shop_name = ""
+        
+        if self.shop is not None:
+            shop_name = shop_name.join(f' - {self.shop.name}')
+        return f'{self.name}{shop_name}'

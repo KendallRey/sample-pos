@@ -11,7 +11,10 @@ class Account(AbstractUser):
             verbose_name_plural = 'Accounts'
 
 class AccountAddress(BaseModelWithUUID):
-      
+    class Meta :
+        verbose_name = 'Account Address'
+        verbose_name_plural = 'Account Addresses'
+
     account = models.ForeignKey(to=Account, null=False, blank=False, on_delete=models.CASCADE)
     name = models.CharField(max_length=80, verbose_name="Account Name", null=False)
     address = models.CharField(max_length=160, verbose_name="Account Address", null=False)

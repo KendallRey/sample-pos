@@ -7,12 +7,17 @@ from account.models import Account
 
 class Cart(BaseModelWithUUID):
 
+
     account = models.ForeignKey(to=Account, null=False, blank=False, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.account.username} Cart'
 
 class CartItem(BaseModelWithUUID):
+
+    class Meta:
+        verbose_name = 'Cart Item'
+        verbose_name_plural = 'Cart Items'
 
     cart = models.ForeignKey(to=Cart,null=False,blank=False, on_delete=models.CASCADE)
     # item = models.ForeignKey(to=Item, verbose_name="Cart Item Reference", null=True, blank=False)
