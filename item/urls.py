@@ -1,5 +1,4 @@
 from django.urls import path
-from django.conf.urls import include
 
 from . import views;
 
@@ -9,7 +8,6 @@ urlpatterns = [
     path('retrieve/<str:id>', views.ItemRetrieve.as_view(), name="[retrieve] - item"),
     path('update/<str:id>', views.ItemUpdate.as_view(), name="[update] - item"),
     path('delete/<str:id>', views.ItemDelete.as_view(), name="[delete] - item"),
-    
 
     path('category/list', views.ItemCategoryList.as_view(), name="[category-list] - item"),
     path('category/create', views.ItemCreate.as_view(), name="[category-create] - item"),
