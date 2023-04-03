@@ -3,6 +3,8 @@ from django.db import models
 from pos.models import BaseModelWithUUID
 from account.models import Account
 
+from item.models import Item
+
 # Create your models here.
 
 class Cart(BaseModelWithUUID):
@@ -20,7 +22,7 @@ class CartItem(BaseModelWithUUID):
         verbose_name_plural = 'Cart Items'
 
     cart = models.ForeignKey(to=Cart,null=False,blank=False, on_delete=models.CASCADE)
-    # item = models.ForeignKey(to=Item, verbose_name="Cart Item Reference", null=True, blank=False)
+    item = models.ForeignKey(to=Item, verbose_name="Cart Item Reference", null=True, blank=False, default=None, on_delete=models.SET_NULL)
     quatity = models.IntegerField(verbose_name="Cart Item Quantity", blank=True, null=False, default=1)
 
     def __str__(self):

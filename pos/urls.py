@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     path('item/', include('item.urls')),
-    path('shop/', include('shop.urls'))
+    path('shop/', include('shop.urls')),
+    path('cart/', include('cart.urls')),
 ]
