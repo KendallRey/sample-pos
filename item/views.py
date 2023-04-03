@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import IsAuthenticated
 from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope, TokenHasScope
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter
 from django.db.models import Q
 
 from shop.models import Shop
@@ -35,7 +36,17 @@ class ItemList(generics.ListAPIView):
     serializer_class = ItemSerializer
     permission_classes = []
 
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filterset_fields = {
+        'created_at' : ['gte','lte'],
+        'name' : ['contains'],
+        'price' : ['gte','lte'],
+        'categories__id' : ['exact'],
+        }
+    ordering_fields = [
+        'created_at',
+        'price',
+        ]
 
     def get_queryset(self):
         return Item.objects.all()
