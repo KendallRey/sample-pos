@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.core.validators import MaxValueValidator, MinValueValidator
 from pos.models import BaseModelWithUUID
 from account.models import Account
 
@@ -23,7 +23,7 @@ class CartItem(BaseModelWithUUID):
 
     cart = models.ForeignKey(to=Cart,null=False,blank=False, on_delete=models.CASCADE)
     item = models.ForeignKey(to=Item, verbose_name="Cart Item Reference", null=True, blank=False, default=None, on_delete=models.SET_NULL)
-    quatity = models.IntegerField(verbose_name="Cart Item Quantity", blank=True, null=False, default=1)
+    quatity = models.IntegerField(verbose_name="Cart Item Quantity", blank=True, null=False, default=1, validators=[MinValueValidator(1)])
 
     def __str__(self):
-        return f'{self.cart.account.username}'
+        return f'{self.cart.account.username} - {self.item.name}'

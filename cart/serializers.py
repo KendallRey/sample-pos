@@ -2,6 +2,18 @@ from rest_framework import serializers
 
 from .models import Cart, CartItem
 
+
+class CartItemSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CartItem
+        fields = [
+            'id',
+            'created_at',
+            'item',
+            'quantity',
+        ]
+
 class CartSerializer(serializers.ModelSerializer):
 
     items_count = serializers.SerializerMethodField('get_items_count')
@@ -21,5 +33,10 @@ class CartSerializer(serializers.ModelSerializer):
         return items.count()
 
     def get_total_price(self, obj):
-        items = CartItem.objects.filter(cart = obj)
-        return sum(_.price for _ in items)
+        cart_items = CartItem.objects.filter(cart = obj)
+        available_items = cart_items.filter(item__stock__gte = 1)
+        total_price = 0
+        for cart_item in available_items:
+            calculated_price = cart_item.item.price * cart_item.quatity
+            total_price += calculated_price
+        return total_price
