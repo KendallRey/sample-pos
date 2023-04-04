@@ -2,8 +2,11 @@ from rest_framework import serializers
 
 from .models import Cart, CartItem
 
+from item.serializers import ItemNoCategoriesSerializer
 
 class CartItemSerializer(serializers.ModelSerializer):
+
+    item = ItemNoCategoriesSerializer(read_only=True)
 
     class Meta:
         model = CartItem
@@ -37,6 +40,6 @@ class CartSerializer(serializers.ModelSerializer):
         available_items = cart_items.filter(item__stock__gte = 1)
         total_price = 0
         for cart_item in available_items:
-            calculated_price = cart_item.item.price * cart_item.quatity
+            calculated_price = cart_item.item.price * cart_item.quantity
             total_price += calculated_price
         return total_price

@@ -25,3 +25,15 @@ class ItemSerializer(serializers.ModelSerializer):
             'price',
             'discount',
             ]
+
+class ItemNoCategoriesSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Item
+        fields = [
+            'id',
+            'name',
+            'created_at',
+            'price',
+            'discount',
+            ]
