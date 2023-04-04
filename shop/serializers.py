@@ -11,7 +11,8 @@ class ShopCategorySerializer(serializers.ModelSerializer):
             'description',
         ]
 
-class ShopSerializer(serializers.ModelSerializer):
+
+class BaseShopSerializer(serializers.ModelSerializer):
 
     categories = ShopCategorySerializer(many=True, read_only=True)
 
@@ -22,4 +23,16 @@ class ShopSerializer(serializers.ModelSerializer):
             'name',
             'description',
             'categories',
+            ]
+
+class ShopSerializer(BaseShopSerializer):
+    pass
+
+class ShopNoCategoriesSerializer(BaseShopSerializer):
+    class Meta:
+        model = Shop
+        fields = [
+            'id',
+            'name',
+            'description',
             ]
