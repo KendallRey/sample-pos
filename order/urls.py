@@ -9,4 +9,5 @@ urlpatterns = [
     path('retrieve/<str:id>', views.OrderItemRetrieve.as_view(), name="[retrieve] - order item"),
     path('update/<str:id>', views.OrderItemUpdate.as_view(), name="[update] - order item"),
     path('delete/<str:id>', views.OrderItemDelete.as_view(), name="[delete] - order item"),
+    path('accept/<str:id>', views.OrderItemAccept.as_view(), name="[accept] - order item"),
 ]

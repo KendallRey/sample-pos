@@ -1,6 +1,11 @@
 from django.shortcuts import render
 from rest_framework import generics, status
 from rest_framework.response import Response
+from django.db.models import F
+from rest_framework import viewsets
+from rest_framework.views import APIView
+
+from item.models import Item
 
 from .serializers import OrderItemSerializer
 from .models import OrderItem
@@ -79,3 +84,50 @@ class OrderItemDelete(generics.RetrieveDestroyAPIView):
     lookup_field = 'id'
 
     queryset = OrderItem.objects.all()
+
+
+class OrderItemAccept(APIView):
+    """
+    `accept/<str:id>` for accepting order item,
+    """
+    permission_classes = []
+    
+    def create(self, request, id):
+        print("1::"+id)
+    
+    
+
+# class OrderItemAccept(generics.CreateAPIView):
+#     """
+#     `accept/<str:id>` for accepting order item,
+#     """
+
+#     serializer_class = OrderItemSerializer
+#     permission_classes = []
+
+#     lookup_field = 'id'
+
+#     queryset = OrderItem.objects.all()
+
+    # def create(self, request, *args, **kwargs):
+    #     item_stock = Item.objects.get(id=self.cart_item.item.id).stock
+    #     if item_stock < self.cart_item.quantity:
+    #         return Response({"errors" : ["Not enough stock!"]}, status=status.HTTP_404_NOT_FOUND)
+    #     try :
+    #         Item.objects.filter(id=self.cart_item.item.id).update(stock = F('stock')+(-self.cart_item.quantity))
+    #         return Response({"errors" : ["User doesn't have a shop!"]}, status=status.HTTP_200_OK)
+    #     except :
+    #         return Response({"errors" : ["User doesn't have a shop!"]}, status=status.HTTP_404_NOT_FOUND)
+
+    # def cr(self):
+    #     try :
+    #         Item.objects.filter(id=self.cart_item.item.id).update(stock = F('stock')+(-self.cart_item.quantity))
+    #         return Response({"errors" : ["User doesn't have a shop!"]}, status=status.HTTP_200_OK)
+    #     except :
+    #         return Response({"errors" : ["User doesn't have a shop!"]}, status=status.HTTP_404_NOT_FOUND)
+    #     return super().get_object()
+    
+    # serializer_class = OrderItemSerializer
+    # permission_classes = []
+
+    
