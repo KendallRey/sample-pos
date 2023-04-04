@@ -1,5 +1,7 @@
 from django.db import models
 
+from django.core.validators import MaxValueValidator, MinValueValidator
+
 from pos.models import BaseModelWithUUID
 from shop.models import Shop
 # Create your models here.
@@ -24,7 +26,7 @@ class Item(BaseModelWithUUID):
     price = models.DecimalField(max_digits=9, decimal_places=2, blank=False, default=0)
     categories = models.ManyToManyField(to=ItemCategory, blank=True, related_name="categories")
     stock = models.IntegerField(null=False, blank=False, default=0)
-    discount = models.DecimalField(max_digits=5, decimal_places=2, blank=True, default=0)
+    discount = models.DecimalField(max_digits=5, decimal_places=2, blank=True, default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
 
     def __str__(self):
         shop_name = ""

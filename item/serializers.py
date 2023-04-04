@@ -11,22 +11,36 @@ class ItemCategorySerializer(serializers.ModelSerializer):
             'description',
         ]
 
-class ItemSerializer(serializers.ModelSerializer):
+class BaseItemSerializer(serializers.ModelSerializer):
 
     categories = ItemCategorySerializer(many=True, read_only=True)
-
+    discounted_price = serializers.SerializerMethodField("get_discounted_price")
+    discount_price = serializers.SerializerMethodField("get_discount_price")
     class Meta:
         model = Item
         fields = [
             'id',
             'name',
             'created_at',
+            'price',
             'categories',
-            'price',
             'discount',
+            'discounted_price',
+            'discount_price',
             ]
+        
+    def get_discounted_price(self, obj):
+        discount_amount = (obj.discount/100) * obj.price
+        return obj.price - discount_amount
 
-class ItemNoCategoriesSerializer(serializers.ModelSerializer):
+    def get_discount_price(self, obj):
+        return (obj.discount/100) * obj.price
+
+class ItemSerializer(BaseItemSerializer):
+
+    pass
+
+class ItemNoCategoriesSerializer(BaseItemSerializer):
 
     class Meta:
         model = Item
@@ -36,4 +50,6 @@ class ItemNoCategoriesSerializer(serializers.ModelSerializer):
             'created_at',
             'price',
             'discount',
+            'discounted_price',
+            'discount_price',
             ]
