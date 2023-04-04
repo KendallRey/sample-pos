@@ -1,6 +1,6 @@
 from django.db import models
+from django.db.models import F
 from django.utils.timezone import now
-
 from pos.models import BaseModelWithUUID
 from account.models import Account, AccountAddress
 from item.models import Item
@@ -27,7 +27,8 @@ class OrderItem(BaseModelWithUUID):
 
     def __str__(self):
         return f'{self.account.username}-{self.cart_item.item.name}'
-
+    
     def save(self, keep_deleted=False, **kwargs):
+        # Item.objects.filter(id=self.cart_item.item.id).update(stock = F('stock')+(-self.cart_item.quantity))
         self.shop = self.cart_item.item.shop
         return super(OrderItem, self).save(keep_deleted, **kwargs)
