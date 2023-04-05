@@ -88,6 +88,8 @@ class OrderItemDelete(generics.RetrieveDestroyAPIView):
     queryset = OrderItem.objects.all()
 
 
+# Change Status to ORDERED
+# Change Item stock to current value minus cart item quantity
 class OrderItemAccept(APIView):
     """
     `accept/<str:id>` for accepting order item,
@@ -96,18 +98,32 @@ class OrderItemAccept(APIView):
     # serializer_class = OrderItemSerializer
 
     def post(self, request, id):
+
         try :
+
             order_item = OrderItem.objects.filter(id = id)
+            order_item_obj = order_item.first()
+
+            if(order_item_obj.status == "ORDERED"):
+                return Response({"errors" : ["Item already ordered!"]}, status=status.HTTP_404_NOT_FOUND)
+
+            item_stock = Item.objects.filter(id=order_item_obj.cart_item.item.id)
+            item_stock_obj = item_stock.first()
+
+            if item_stock_obj.stock < order_item_obj.cart_item.quantity:
+                return Response({"errors" : ["Not enough stock!"]}, status=status.HTTP_404_NOT_FOUND)
+            
             try :
                 # serializer.validated_data()
-                order_item.update(status="BRUH")
+                order_item.update(status="ORDERED")
+                item_stock.update(stock = F('stock')+(-order_item_obj.cart_item.quantity))
                 # data = serializers.serialize('json',order_item,)
                 return Response(data=order_item.values(), status=status.HTTP_200_OK)
             except Exception as e:
                 print('%s' % type(e))
                 return Response({"errors" : ["OOPS! something went wrong"]}, status=status.HTTP_200_OK)
-        except :
-            return Response({"errors" : ["Order Item not found!"]}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({"errors" : ["Item not found!"]}, status=status.HTTP_404_NOT_FOUND)
 
 
 # class OrderItemAccept(generics.CreateAPIView):
