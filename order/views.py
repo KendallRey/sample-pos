@@ -4,7 +4,9 @@ from rest_framework.response import Response
 from django.db.models import F
 from rest_framework import viewsets
 from rest_framework.views import APIView
-
+from rest_framework.permissions import IsAuthenticated
+from django.forms.models import model_to_dict
+from django.core import serializers
 from item.models import Item
 
 from .serializers import OrderItemSerializer
@@ -91,11 +93,22 @@ class OrderItemAccept(APIView):
     `accept/<str:id>` for accepting order item,
     """
     permission_classes = []
-    
-    def create(self, request, id):
-        print("1::"+id)
-    
-    
+    # serializer_class = OrderItemSerializer
+
+    def post(self, request, id):
+        try :
+            order_item = OrderItem.objects.filter(id = id)
+            try :
+                # serializer.validated_data()
+                order_item.update(status="BRUH")
+                # data = serializers.serialize('json',order_item,)
+                return Response(data=order_item.values(), status=status.HTTP_200_OK)
+            except Exception as e:
+                print('%s' % type(e))
+                return Response({"errors" : ["OOPS! something went wrong"]}, status=status.HTTP_200_OK)
+        except :
+            return Response({"errors" : ["Order Item not found!"]}, status=status.HTTP_404_NOT_FOUND)
+
 
 # class OrderItemAccept(generics.CreateAPIView):
 #     """
