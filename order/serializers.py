@@ -4,7 +4,7 @@ from rest_framework import serializers
 from .models import OrderItem
 from shop.serializers import ShopNoCategoriesSerializer
 
-
+from cart.serializers import CartItemSerializer
 
 class BaseOrderItemSerializer(serializers.ModelSerializer):
 
@@ -25,9 +25,10 @@ class BaseOrderItemSerializer(serializers.ModelSerializer):
             'date_out',
             'date_received',
             'date_cancelled',
-            'is_cancelled',
         ]
 
 class OrderItemSerializer(BaseOrderItemSerializer):
+
+    cart_item = CartItemSerializer(read_only=True)
 
     pass
