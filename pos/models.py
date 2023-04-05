@@ -2,6 +2,7 @@ import uuid
 import os
 from django.db import models
 from django.conf import settings
+from django.utils.translation import gettext_lazy as _
 from safedelete.models import SafeDeleteModel
 from safedelete.models import SOFT_DELETE_CASCADE
 
@@ -19,3 +20,8 @@ class BaseModelWithUUID(SafeDeleteModel):
 
     def hard_delete(self):
         return super(SafeDeleteModel,self).delete()
+
+class RequestStatus(models.TextChoices):
+    PENDING = 'PENDING', _('Pending')
+    ACCEPTED = 'ACCEPTED', _('Accepted')
+    REJECTED = 'REJECTED', _('Rejected')
