@@ -39,7 +39,7 @@ class OrderItem(BaseModelWithUUID):
 class OrderItemCancellationRequest(BaseModelWithUUID):
 
     account = models.ForeignKey(to=Account, null=False, blank=False, on_delete=models.CASCADE)
-    cart_item = models.ForeignKey(to=CartItem, null=False, blank=False, on_delete=models.CASCADE)
+    # cart_item = models.ForeignKey(to=CartItem, null=False, blank=False, on_delete=models.CASCADE)
     order_item = models.ForeignKey(to=OrderItem, null=False, blank=False, on_delete=models.CASCADE)
 
     reason = models.CharField(verbose_name="Reason", max_length=256, null=False, blank=True, default="")
