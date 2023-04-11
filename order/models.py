@@ -7,7 +7,7 @@ from item.models import Item
 from cart.models import CartItem
 from shop.models import Shop
 
-from pos.models import RequestStatus
+from pos.models import RequestStatus, OrderStatus
 
 # Create your models here.
 
@@ -20,7 +20,7 @@ class OrderItem(BaseModelWithUUID):
     shop = models.ForeignKey(to=Shop, null=True, blank=False, editable=False, on_delete=models.SET_NULL)
 
     quantity = models.IntegerField(verbose_name="Order Item Quantity", null=False, blank=True, default=1)
-    status = models.CharField(max_length=40, verbose_name="Order Item Status")
+    status = models.CharField(max_length=20, null=False, blank=False, choices=OrderStatus.choices, verbose_name="Order Item Status", default=OrderStatus.PENDING)
     date_placed = models.DateTimeField(verbose_name="Date Order Placed", editable=False, default=now)
     date_out = models.DateField(verbose_name="Date Order Out for Delivery", null=True, blank=True, default=None)
     date_received = models.DateField(verbose_name="Date Order Received", null=True, blank=True, default=None)
