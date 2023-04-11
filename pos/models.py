@@ -25,3 +25,13 @@ class RequestStatus(models.TextChoices):
     PENDING = 'PENDING', _('Pending')
     ACCEPTED = 'ACCEPTED', _('Accepted')
     REJECTED = 'REJECTED', _('Rejected')
+
+class OrderStatus(models.TextChoices):
+    PENDING = 'PENDING', _('Pending')
+    ACCEPTED = 'ACCEPTED', _('Accepted')
+    CANCELLED = 'CANCELLED', _('Cancelled')
+    PREPARING = 'PREPARING', _('Preparing')
+    SHIPPING = 'SHIPPING', _('Shipping')
+    OUT_FOR_DELIVERY = 'OUT_FOR_DELIVERY', _('Out for Delivery')
+    DELIVERED = 'DELIVERED', _('Delivered')
+    RECEIVED = 'RECEIVED', _('Received')
