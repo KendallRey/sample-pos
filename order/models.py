@@ -22,10 +22,10 @@ class OrderItem(BaseModelWithUUID):
     quantity = models.IntegerField(verbose_name="Order Item Quantity", null=False, blank=True, default=1)
     status = models.CharField(max_length=20, null=False, blank=False, choices=OrderStatus.choices, verbose_name="Order Item Status", default=OrderStatus.PENDING)
     date_placed = models.DateTimeField(verbose_name="Date Order Placed", editable=False, default=now)
-    date_out = models.DateField(verbose_name="Date Order Out for Delivery", null=True, blank=True, default=None)
-    date_received = models.DateField(verbose_name="Date Order Received", null=True, blank=True, default=None)
-    date_cancelled = models.DateField(verbose_name="Date Order Cancelled", null=True, blank=True, default=None)
-    is_cancelled = models.BooleanField(verbose_name="Date Order is Cancelled", blank=True, default=False)
+    date_out = models.DateTimeField(verbose_name="Date Order Out for Delivery", null=True, blank=True, default=None)
+    date_received = models.DateTimeField(verbose_name="Date Order Received", null=True, blank=True, default=None)
+    date_cancelled = models.DateTimeField(verbose_name="Date Order Cancelled", null=True, blank=True, default=None)
+    is_cancelled = models.BooleanField(verbose_name="Order is Cancelled", blank=True, default=False)
 
     def __str__(self):
         return f'{self.account.username}-{self.cart_item.item.name}'
