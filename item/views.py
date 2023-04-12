@@ -64,7 +64,7 @@ class ItemRetrieve(generics.RetrieveAPIView):
 
     queryset = Item.objects.all()
 
-class ItemUpdate(generics.UpdateAPIView):
+class ItemUpdate(generics.RetrieveUpdateAPIView):
 
     serializer_class = ItemSerializer
     permission_classes = []

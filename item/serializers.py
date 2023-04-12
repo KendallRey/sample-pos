@@ -42,8 +42,7 @@ class ItemSerializer(BaseItemSerializer):
 
 class ItemNoCategoriesSerializer(BaseItemSerializer):
 
-    class Meta:
-        model = Item
+    class Meta(BaseItemSerializer.Meta):
         fields = [
             'id',
             'name',

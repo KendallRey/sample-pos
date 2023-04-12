@@ -17,20 +17,24 @@ from .permissions import IsSuperUser
 class ShopCategoryList(generics.ListAPIView):
     """
     `GET` for list,
-    Return categories of their own shop, empty if user doesn't have a shop
+    Return categories
     """
     serializer_class = ShopCategorySerializer
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
 
     filter_backends = [DjangoFilterBackend]
 
     def get_queryset(self):
-        shop = Shop.objects.get(account=self.request.user)
-        if shop is None:
-            return []
-        query_set = ShopCategory.objects.filter(shop=shop)
+        # try:
+        #     shop = Shop.objects.get(account=self.request.user)
+        # except :
+        #     return []
+        # if shop is None:
+        #     return []
+        # query_set = ShopCategory.objects.filter(shop=shop)
 
-        return query_set
+        # return query_set
+        return ShopCategory.objects.all()
 class ShopCategoryCreate(generics.CreateAPIView):
     """
     `GET` for list,
@@ -62,7 +66,7 @@ class ShopCategoryUpdate(generics.RetrieveUpdateAPIView):
 class ShopList(generics.ListAPIView):
 
     serializer_class = ShopSerializer
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
 
     filter_backends = [DjangoFilterBackend]
 
@@ -72,7 +76,7 @@ class ShopList(generics.ListAPIView):
 class ShopCreate(generics.CreateAPIView):
 
     serializer_class = ShopSerializer
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
 
 class ShopRetrieve(generics.GenericAPIView):
 
@@ -95,7 +99,7 @@ class ShopRetrieve(generics.GenericAPIView):
 class ShopUpdate(generics.UpdateAPIView):
 
     serializer_class = ShopSerializer
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
     lookup_field = 'id'
 
     queryset = Shop.objects.all()
