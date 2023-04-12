@@ -7,6 +7,7 @@ class ShopCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = ShopCategory
         fields = [
+            'id',
             'name',
             'description',
         ]
@@ -29,8 +30,7 @@ class ShopSerializer(BaseShopSerializer):
     pass
 
 class ShopNoCategoriesSerializer(BaseShopSerializer):
-    class Meta:
-        model = Shop
+    class Meta(BaseShopSerializer.Meta):
         fields = [
             'id',
             'name',

@@ -10,6 +10,7 @@ from django.db.models import Q
 
 from .models import Shop, ShopCategory
 from .serializers import ShopSerializer, ShopCategorySerializer
+from .permissions import IsSuperUser
 
 # Create your views here.
 
@@ -30,6 +31,33 @@ class ShopCategoryList(generics.ListAPIView):
         query_set = ShopCategory.objects.filter(shop=shop)
 
         return query_set
+class ShopCategoryCreate(generics.CreateAPIView):
+    """
+    `GET` for list,
+    Return categories of their own shop, empty if user doesn't have a shop
+    """
+    serializer_class = ShopCategorySerializer
+    permission_classes = [IsSuperUser]
+
+class ShopCategoryRetrieve(generics.RetrieveAPIView):
+    """
+    `retrieve/<str:id>` for retrieving order item,
+    """
+    serializer_class = ShopCategorySerializer
+    permission_classes = []
+    lookup_field = 'id'
+
+    queryset = ShopCategory.objects.all()
+
+class ShopCategoryUpdate(generics.RetrieveUpdateAPIView):
+    """
+    `update/<str:id>` for retrieving order item,
+    """
+    serializer_class = ShopCategorySerializer
+    permission_classes = [IsSuperUser]
+    lookup_field = 'id'
+
+    queryset = ShopCategory.objects.all()
 
 class ShopList(generics.ListAPIView):
 

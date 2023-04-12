@@ -10,9 +10,9 @@ urlpatterns = [
     path('update/<str:id>', views.ShopUpdate.as_view(), name="[update] - item"),
     path('delete/<str:id>', views.ShopDelete.as_view(), name="[delete] - item"),
 
-    # path('category/list', views.ShopCategoryList.as_view(), name="[category-list] - item"),
-    # path('category/create', views.ShopCreate.as_view(), name="[category-create] - item"),
-    # path('category/retrieve/<str:id>', views.ShopRetrieve.as_view(), name="[category-retrieve] - item"),
-    # path('category/update/<str:id>', views.ShopUpdate.as_view(), name="[category-update] - item"),
-    # path('category/delete/<str:id>', views.ShopDelete.as_view(), name="[category-delete] - item"),
+    path('category/list', views.ShopCategoryList.as_view(), name="[category-list] - item"),
+    path('category/create', views.ShopCategoryCreate.as_view(), name="[category-create] - item"),
+    path('category/retrieve/<str:id>', views.ShopCategoryRetrieve.as_view(), name="[category-retrieve] - item"),
+    path('category/update/<str:id>', views.ShopCategoryUpdate.as_view(), name="[category-update] - item"),
+    path('category/delete/<str:id>', views.ShopDelete.as_view(), name="[category-delete] - item"),
 ]
