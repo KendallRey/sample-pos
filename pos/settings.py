@@ -163,6 +163,11 @@ REST_FRAMEWORK = {
 
 CORS_ALLOW_ALL_ORIGINS = False
 
-csrf_trusted_origins = os.getenv("CSRF_TRUSTED_ORIGINS").split(',')
+cors_allowed_origins = os.getenv("CORS_ALLOWED_ORIGINS").split(',')
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "https://localhost:3000",
+]
 
+csrf_trusted_origins = os.getenv("CSRF_TRUSTED_ORIGINS").split(',')
 CSRF_TRUSTED_ORIGINS = csrf_trusted_origins
