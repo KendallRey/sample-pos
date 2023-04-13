@@ -19,7 +19,7 @@ class ItemCategoryList(generics.ListAPIView):
     Return categories of their own shop, empty if user doesn't have a shop
     """
     serializer_class = ItemCategorySerializer
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
 
     filter_backends = [DjangoFilterBackend]
 
@@ -34,7 +34,7 @@ class ItemCategoryList(generics.ListAPIView):
 class ItemList(generics.ListAPIView):
 
     serializer_class = ItemSerializer
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
 
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_fields = {

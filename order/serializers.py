@@ -7,7 +7,7 @@ from shop.serializers import ShopNoCategoriesSerializer
 from cart.serializers import CartItemSerializer
 from account.serializers import AccountSerializer
 
-class BaseOrderItemSerializer(serializers.ModelSerializer):
+class OrderItemSerializer(serializers.ModelSerializer):
 
     shop = ShopNoCategoriesSerializer(read_only=True)
 
@@ -28,13 +28,7 @@ class BaseOrderItemSerializer(serializers.ModelSerializer):
             'date_cancelled',
         ]
 
-class OrderItemSerializer(BaseOrderItemSerializer):
-
-    cart_item = CartItemSerializer(read_only=True)
-
-    pass
-
-class OrderItemCancellationRequestSerializer(BaseOrderItemSerializer):
+class OrderItemCancellationRequestSerializer(serializers.ModelSerializer):
 
     account = AccountSerializer(read_only=True)
     class Meta:

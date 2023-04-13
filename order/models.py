@@ -19,7 +19,6 @@ class OrderItem(BaseModelWithUUID):
     cart_item = models.ForeignKey(to=CartItem, null=True, blank=False, on_delete=models.SET_NULL)
     shop = models.ForeignKey(to=Shop, null=True, blank=False, editable=False, on_delete=models.SET_NULL)
 
-    quantity = models.IntegerField(verbose_name="Order Item Quantity", null=False, blank=True, default=1)
     status = models.CharField(max_length=20, null=False, blank=False, choices=OrderStatus.choices, verbose_name="Order Item Status", default=OrderStatus.PENDING)
     date_placed = models.DateTimeField(verbose_name="Date Order Placed", editable=False, default=now)
     date_out = models.DateTimeField(verbose_name="Date Order Out for Delivery", null=True, blank=True, default=None)

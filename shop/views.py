@@ -10,7 +10,7 @@ from django.db.models import Q
 
 from .models import Shop, ShopCategory
 from .serializers import ShopSerializer, ShopCategorySerializer
-from .permissions import IsSuperUser
+from pos.permissions import *
 
 # Create your views here.
 
