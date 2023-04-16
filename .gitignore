@@ -168,6 +168,7 @@ docker-compose.yaml
 file/
 files/
 static/
+media/
 
 # migrations
 account/migrations/

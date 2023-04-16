@@ -4,6 +4,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 from pos.models import BaseModelWithUUID
 from shop.models import Shop
+from pos.directories import ITEM_IMAGES_DIR
 # Create your models here.
 
 class ItemCategory(BaseModelWithUUID):
@@ -27,6 +28,7 @@ class Item(BaseModelWithUUID):
     categories = models.ManyToManyField(to=ItemCategory, blank=True, related_name="categories")
     stock = models.IntegerField(null=False, blank=False, default=0)
     discount = models.DecimalField(max_digits=5, decimal_places=2, blank=True, default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
+    image = models.ImageField(upload_to=ITEM_IMAGES_DIR, blank=True, null=True,)
 
     def __str__(self):
         shop_name = ""

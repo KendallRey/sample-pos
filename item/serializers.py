@@ -27,6 +27,7 @@ class ItemSerializer(serializers.ModelSerializer):
             'discount',
             'discounted_price',
             'discount_price',
+            'image',
             ]
         
     def get_discounted_price(self, obj):
