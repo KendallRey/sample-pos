@@ -3,9 +3,14 @@ from django.contrib.auth.models import Group, AbstractUser, User
 
 from pos.models import BaseModelWithUUID
 
+from pos.directories import user_directory_path
+
 # Create your models here.
 
 class Account(AbstractUser):
+
+    image = models.ImageField(upload_to=user_directory_path, null=True, blank=True,)
+
     class Meta:
             verbose_name = 'Account'
             verbose_name_plural = 'Accounts'

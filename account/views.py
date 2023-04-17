@@ -38,7 +38,7 @@ class GetCurrentUser(generics.GenericAPIView):
 	def get(self, request):
 		response = HttpResponse()
 		try :
-
+			account = Account.objects.get(id = request.user.id)
 			shopList = Shop.objects.filter(account=request.user)
 			if shopList.count() >= 1 :
 				tempShop = shopList.first()
@@ -49,6 +49,11 @@ class GetCurrentUser(generics.GenericAPIView):
 				})
 			else :
 				shop = None
+			
+			if account.image:
+				image_url = account.image.url
+			else :
+				image_url = None
 
 			user_details = {
 				"id" : request.user.id,
@@ -56,12 +61,14 @@ class GetCurrentUser(generics.GenericAPIView):
 				"username" : request.user.username,
 				"first_name" : request.user.first_name,
 				"last_name" : request.user.last_name,
+				"image" : image_url,
 				"shop" : shop,
 			}
 
 			response.content = user_details
 			response.status_code = 201
 			return JsonResponse(user_details, safe=False)
-		except :
+		except Exception as e:
+			print(str(e))
 			response.status_code = 400
 			return response
