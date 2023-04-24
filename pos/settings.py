@@ -171,12 +171,20 @@ CORS_ALLOW_ALL_ORIGINS = False
 
 cors_allowed_origins = os.getenv("CORS_ALLOWED_ORIGINS").split(',')
 CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8000",
+    "https://localhost:8000",
     "http://localhost:3000",
     "https://localhost:3000",
+    "http://localhost:5173",
+    "https://localhost:5173",
 ]
 
 csrf_trusted_origins = os.getenv("CSRF_TRUSTED_ORIGINS").split(',')
 CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:8000",
+    "https://localhost:8000",
     "http://localhost:3000",
     "https://localhost:3000",
+    "http://localhost:5173",
+    "https://localhost:5173",
 ]

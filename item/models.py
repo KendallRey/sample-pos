@@ -36,3 +36,8 @@ class Item(BaseModelWithUUID):
         if self.shop is not None:
             shop_name = shop_name.join(f' - {self.shop.name}')
         return f'{self.name}{shop_name}'
+
+class ItemImage(BaseModelWithUUID):
+
+    item = models.ForeignKey(to=Item, null=False, blank=False, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to=ITEM_IMAGES_DIR, blank=True, null=True,)
