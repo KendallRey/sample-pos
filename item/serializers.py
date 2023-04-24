@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Item, ItemCategory
+from .models import Item, ItemCategory, ItemImage
 
 class ItemCategorySerializer(serializers.ModelSerializer):
 
@@ -49,3 +49,13 @@ class ItemNoCategoriesSerializer(ItemSerializer):
             'discounted_price',
             'discount_price',
             ]
+        
+class ItemImageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ItemImage
+        fields = [
+            'id',
+            'item',
+            'image',
+        ]

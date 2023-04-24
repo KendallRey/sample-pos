@@ -40,4 +40,7 @@ class Item(BaseModelWithUUID):
 class ItemImage(BaseModelWithUUID):
 
     item = models.ForeignKey(to=Item, null=False, blank=False, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to=ITEM_IMAGES_DIR, blank=True, null=True,)
+    image = models.ImageField(upload_to=ITEM_IMAGES_DIR, blank=False, null=True)
+
+    def __str__(self):
+        return f'{self.item.name}'

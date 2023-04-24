@@ -14,4 +14,8 @@ urlpatterns = [
     path('category/retrieve/<str:id>', views.ItemRetrieve.as_view(), name="[category-retrieve] - item"),
     path('category/update/<str:id>', views.ItemUpdate.as_view(), name="[category-update] - item"),
     path('category/delete/<str:id>', views.ItemDelete.as_view(), name="[category-delete] - item"),
+
+    path('image/list', views.ItemImageList.as_view(), name="[image-list] - item"),
+    path('image/create', views.ItemImageCreate.as_view(), name="[image-create] - item"),
+    path('image/update/<str:id>', views.ItemImageUpdate.as_view(), name="[image-update] - item"),
 ]
