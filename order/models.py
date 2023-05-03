@@ -6,6 +6,7 @@ from account.models import Account, AccountAddress
 from item.models import Item
 from cart.models import CartItem
 from shop.models import Shop
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 from pos.models import RequestStatus, OrderStatus
 
@@ -46,3 +47,13 @@ class OrderItemCancellationRequest(BaseModelWithUUID):
 
     def __str__(self):
         return f'{self.account.username} - {self.status}'
+    
+
+
+class Rating(BaseModelWithUUID):
+
+    order_item = models.ForeignKey(to=Item, null=False, blank=False, on_delete=models.CASCADE)
+    account = models.ForeignKey(to=Account, null=True, blank=False, on_delete=models.CASCADE)
+
+    stars = models.IntegerField(verbose_name="Stars", validators=[MaxValueValidator(5), MinValueValidator(0)])
+    comment = models.CharField(verbose_name="Comment", max_length=256)

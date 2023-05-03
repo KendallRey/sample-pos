@@ -1,7 +1,7 @@
 
 from rest_framework import serializers
 
-from .models import OrderItem, OrderItemCancellationRequest
+from .models import OrderItem, OrderItemCancellationRequest, Rating
 from shop.serializers import ShopNoCategoriesSerializer
 
 from cart.serializers import CartItemSerializer
@@ -40,4 +40,12 @@ class OrderItemCancellationRequestSerializer(serializers.ModelSerializer):
             'order_item',
             'reason',
             'status',
+        ]
+
+class RatingSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Rating
+        fields = [
+            'id',
         ]

@@ -9,8 +9,8 @@ from django.forms.models import model_to_dict
 from django.core import serializers
 from item.models import Item
 
-from .serializers import OrderItemSerializer
-from .models import OrderItem
+from .serializers import OrderItemSerializer, RatingSerializer
+from .models import OrderItem, Rating
 
 from cart.models import CartItem
 from shop.models import Shop
@@ -159,4 +159,26 @@ class OrderItemAccept(APIView):
     # serializer_class = OrderItemSerializer
     # permission_classes = []
 
-    
+
+class RatingList(generics.ListAPIView):
+    """
+    `create` for creating,
+    """
+    serializer_class = RatingSerializer
+    permission_classes = []
+
+    queryset = Rating.objects.all()
+
+class RatingCreate(generics.CreateAPIView):
+    """
+    `create` for creating,
+    """
+    serializer_class = RatingSerializer
+    permission_classes = []
+
+class RatingUpdate(generics.UpdateAPIView):
+    """
+    `update/<str:id>` for creating,
+    """
+    serializer_class = RatingSerializer
+    permission_classes = []
