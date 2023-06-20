@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from .models import Item, ItemCategory, ItemImage
+from pos.models import Base64ImageField
 
 class ItemCategorySerializer(serializers.ModelSerializer):
 
@@ -13,6 +14,7 @@ class ItemCategorySerializer(serializers.ModelSerializer):
 
 class ItemSerializer(serializers.ModelSerializer):
 
+    image = Base64ImageField(required = False)
     categories = ItemCategorySerializer(many=True, read_only=True)
     discounted_price = serializers.SerializerMethodField("get_discounted_price")
     discount_price = serializers.SerializerMethodField("get_discount_price")
