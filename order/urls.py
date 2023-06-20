@@ -12,5 +12,5 @@ urlpatterns = [
     path('accept/<str:id>', views.OrderItemAccept.as_view(), name="[accept] - order item"),
 
     path('rating/create', views.RatingCreate.as_view(), name="[create rating] - order item"),
-    path('rating/update', views.RatingCreate.as_view(), name="[update rating] - order item"),
+    path('rating/update', views.RatingUpdate.as_view(), name="[update rating] - order item"),
 ]
