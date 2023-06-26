@@ -7,7 +7,7 @@ from django.core import serializers
 from rest_framework import generics
 from account.permissions import IsUserOwner
 
-from account.serializers import AccountUserSerializer
+from account.serializers import AccountUserSerializer, ChangePasswordSerializer
 from .models import Account
 from shop.models import Shop
 from shop.serializers import ShopSerializer
@@ -81,6 +81,19 @@ class UpdateUser(generics.UpdateAPIView):
 	`update/<str:id>` for creating,
 	"""
 	serializer_class = AccountUserSerializer
+	permission_classes = [IsUserOwner]
+
+	lookup_field = "id"
+
+	def get_queryset(self):
+		return Account.objects.all()
+	
+
+class UpdateUserPassword(generics.UpdateAPIView):
+	"""
+	`update/<str:id>` for creating,
+	"""
+	serializer_class = ChangePasswordSerializer
 	permission_classes = [IsUserOwner]
 
 	lookup_field = "id"
