@@ -5,6 +5,9 @@ from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope, Token
 
 from django.core import serializers
 from rest_framework import generics
+from account.permissions import IsUserOwner
+
+from account.serializers import AccountUserSerializer
 from .models import Account
 from shop.models import Shop
 from shop.serializers import ShopSerializer
@@ -72,3 +75,16 @@ class GetCurrentUser(generics.GenericAPIView):
 			print(str(e))
 			response.status_code = 400
 			return response
+
+class UpdateUser(generics.UpdateAPIView):
+	"""
+	`update/<str:id>` for creating,
+	"""
+	serializer_class = AccountUserSerializer
+	permission_classes = [IsUserOwner]
+
+	lookup_field = "id"
+
+	def get_queryset(self):
+		return Account.objects.all()
+	

@@ -5,7 +5,7 @@ from .models import OrderItem, OrderItemCancellationRequest, Rating
 from shop.serializers import ShopNoCategoriesSerializer
 
 from cart.serializers import CartItemSerializer
-from account.serializers import AccountSerializer
+from account.serializers import AccountUserNameEmailSerializer
 
 class OrderItemSerializer(serializers.ModelSerializer):
 
@@ -30,7 +30,7 @@ class OrderItemSerializer(serializers.ModelSerializer):
 
 class OrderItemCancellationRequestSerializer(serializers.ModelSerializer):
 
-    account = AccountSerializer(read_only=True)
+    account = AccountUserNameEmailSerializer(read_only=True)
     class Meta:
         model = OrderItemCancellationRequest
         fields = [
