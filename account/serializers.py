@@ -1,9 +1,12 @@
 from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
+
+from pos.models import Base64ImageField
 from .models import Account
 
 class AccountUserSerializer(serializers.ModelSerializer):
 
+    image = Base64ImageField(required = False)
     class Meta:
         model = Account
         fields = [
@@ -11,6 +14,7 @@ class AccountUserSerializer(serializers.ModelSerializer):
             "email",
             "first_name",
             "last_name",
+            "image",
         ]
 
 class AccountUserNameEmailSerializer(serializers.ModelSerializer):
