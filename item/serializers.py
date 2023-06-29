@@ -8,6 +8,7 @@ class ItemCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = ItemCategory
         fields = [
+            'id',
             'name',
             'description',
         ]
