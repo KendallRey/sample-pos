@@ -1,16 +1,16 @@
 from rest_framework.permissions import IsAuthenticated
 from django.http import JsonResponse, HttpResponse
-from rest_framework.decorators import api_view, permission_classes
-from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope, TokenHasScope
-
-from django.core import serializers
+from rest_framework.permissions import AllowAny
 from rest_framework import generics
 from account.permissions import IsUserOwner
 
-from account.serializers import AccountUserSerializer, ChangePasswordSerializer
+from account.serializers import AccountUserRegisterSerializer, AccountUserSerializer, ChangePasswordSerializer
 from .models import Account
 from shop.models import Shop
-from shop.serializers import ShopSerializer
+
+class UserRegister(generics.CreateAPIView):
+	permission_classes = (AllowAny,)
+	serializer_class = AccountUserRegisterSerializer
 
 # @permission_classes([IsAuthenticated])
 # @api_view(['GET'])
