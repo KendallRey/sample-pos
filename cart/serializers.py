@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Cart, CartItem
+from .models import Cart, CartItem, Item
 
 from item.serializers import ItemNoCategoriesSerializer
 
@@ -104,3 +104,33 @@ class CartSerializer(serializers.ModelSerializer):
             discounted_price = (calculated_price * (cart_item.item.discount/100))
             total_discount_price += discounted_price
         return total_discount_price
+
+
+class TestSerializer(serializers.ModelSerializer):
+
+    class Meta :
+        model = Cart
+        fields = "__all__"
+
+    def create(self, validated_data):
+        try :
+            _items = validated_data['items'] if 'items' in validated_data else None
+            if not _items:
+                raise serializers.ValidationError({"message":"Item List is required."})
+            new_cart = super().create(validated_data)
+            new_cart.save()
+
+            try :
+                for _item in _items:
+                    CartItem.objects.create(
+                        cart = new_cart,
+                        item = _item.item,
+                        quantity = _item.quantity
+                    )
+            except Exception as e:
+                raise serializers.ValidationError({"status" : "OOPS! Items Failed", "hint":str(e)})
+
+            return new_cart
+        except Exception as e:
+
+            raise serializers.ValidationError({"status" : "OOPS!", "hint":str(e)})
