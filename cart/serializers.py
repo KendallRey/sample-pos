@@ -112,25 +112,25 @@ class TestSerializer(serializers.ModelSerializer):
         model = Cart
         fields = "__all__"
 
-    def create(self, validated_data):
-        try :
-            _items = validated_data['items'] if 'items' in validated_data else None
-            if not _items:
-                raise serializers.ValidationError({"message":"Item List is required."})
-            new_cart = super().create(validated_data)
-            new_cart.save()
+    # def create(self, validated_data):
+    #     try :
+    #         _items = validated_data['items'] if 'items' in validated_data else None
+    #         if not _items:
+    #             raise serializers.ValidationError({"message":"Item List is required."})
+    #         new_cart = super().create(validated_data)
+    #         new_cart.save()
 
-            try :
-                for _item in _items:
-                    CartItem.objects.create(
-                        cart = new_cart,
-                        item = _item.item,
-                        quantity = _item.quantity
-                    )
-            except Exception as e:
-                raise serializers.ValidationError({"status" : "OOPS! Items Failed", "hint":str(e)})
+    #         try :
+    #             for _item in _items:
+    #                 CartItem.objects.create(
+    #                     cart = new_cart,
+    #                     item = _item.item,
+    #                     quantity = _item.quantity
+    #                 )
+    #         except Exception as e:
+    #             raise serializers.ValidationError({"status" : "OOPS! Items Failed", "hint":str(e)})
 
-            return new_cart
-        except Exception as e:
+    #         return new_cart
+    #     except Exception as e:
 
-            raise serializers.ValidationError({"status" : "OOPS!", "hint":str(e)})
+    #         raise serializers.ValidationError({"status" : "OOPS!", "hint":str(e)})
