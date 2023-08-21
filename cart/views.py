@@ -77,13 +77,15 @@ class TestBulkCreate(APIView):
                         quantity = _item["quantity"]
                     )
             except Exception as e:
-                cart.delete()
+                if cart:
+                    cart.hard_delete()
                 return Response({"errors" : ["Invalid items2!"],"hint":str(e)}, status=status.HTTP_404_NOT_FOUND)
             new_cart = {
                 "id" : cart.id
             }
             return JsonResponse(new_cart, safe=False)
         except Exception as e:
-            cart.delete()
+            if cart:
+                cart.hard_delete()
             return Response({"errors" : ["Idawdaw!"],"hint":str(e)}, status=status.HTTP_404_NOT_FOUND)
 
