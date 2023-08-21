@@ -16,3 +16,4 @@ django-cors-headers
 python-dotenv
 djangorestframework
 markdown
+pycryptodome
