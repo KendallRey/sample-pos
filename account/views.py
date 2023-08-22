@@ -97,7 +97,7 @@ class GetCurrentUser(generics.GenericAPIView):
 
 class UpdateUser(generics.UpdateAPIView):
 	"""
-	`update/<str:id>` for creating,
+	`update/<str:id>` for updating, `profile` key value must be encrypted
 	"""
 	serializer_class = AccountUserSerializer
 	permission_classes = [IsUserOwner]
@@ -107,6 +107,35 @@ class UpdateUser(generics.UpdateAPIView):
 	def get_queryset(self):
 		return Account.objects.all()
 	
+	def put(self, request, id):
+		response = HttpResponse()
+		try:
+			account = Account.objects.get(pk=id)
+		except Account.DoesNotExist:
+			response.status_code = 404
+
+		try:
+			decrypted = Cipher.decrypt(request.data['profile'])
+			decoded = decrypted.decode("utf-8", "ignore")
+			json_load = json.loads(decoded)
+		except:
+			response.status_code = 422
+			return response
+
+		serializer = AccountUserSerializer(account, data=json_load)
+		if serializer.is_valid():
+			serializer.save()
+
+			body = json.dumps(serializer.data)
+			encrypted = Cipher.encrypt(body)
+			decoded = encrypted.decode("utf-8", "ignore")
+			response.content = decoded
+
+			response.status_code = 200
+			return response
+		else:
+			response.status_code = 400
+			return response
 
 class UpdateUserPassword(generics.UpdateAPIView):
 	"""
@@ -127,10 +156,13 @@ class AuthLoginView(TokenView):
 	@method_decorator(sensitive_post_parameters("password"))
 	def post(self, request, *args, **kwargs):
 
+		response = HttpResponse()
+
 		decrypted = Cipher.decrypt(request.body)
 		request._body = decrypted
 
 		url, headers, body, status = self.create_token_response(request)
+		response.status_code = status
 		if status == 200:
 			body = json.loads(body)
 			access_token = body.get("access_token")
@@ -143,7 +175,9 @@ class AuthLoginView(TokenView):
 				body = json.dumps(body)
 				encrypted = Cipher.encrypt(body)
 				decoded = encrypted.decode("utf-8", "ignore")
-		response = HttpResponse(content=decoded, status=status)
+
+				response.content = decoded
+				return response
 		# for k, v in headers.items():
 		# 	response[k] = v
 		return response
