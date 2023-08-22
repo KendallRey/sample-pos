@@ -12,6 +12,7 @@ from oauth2_provider.models import get_access_token_model
 from oauth2_provider.signals import app_authorized
 import json
 from urllib.parse import urlencode
+from django.templatetags.static import static
 
 from account.serializers import AccountUserRegisterSerializer, AccountUserSerializer, ChangePasswordSerializer
 from .models import Account
@@ -69,7 +70,7 @@ class GetCurrentUser(generics.GenericAPIView):
 				shop = None
 			
 			if account.image:
-				image_url = account.image.url
+				image_url = static(account.image.url)
 			else :
 				image_url = None
 
@@ -91,7 +92,6 @@ class GetCurrentUser(generics.GenericAPIView):
 
 			return response
 		except Exception as e:
-			print(str(e))
 			response.status_code = 400
 			return response
 
