@@ -61,7 +61,7 @@ class GetCurrentUser(generics.GenericAPIView):
 			if shopList.count() >= 1 :
 				tempShop = shopList.first()
 				shop = dict({
-					"id" : tempShop.id,
+					"id" : str(tempShop.id),
 					"name" : tempShop.name,
 					"description" : tempShop.description,
 				})
@@ -73,7 +73,7 @@ class GetCurrentUser(generics.GenericAPIView):
 			else :
 				image_url = None
 
-			user_details = {
+			user_details = dict({
 				"id" : request.user.id,
 				"email" : request.user.email,
 				"username" : request.user.username,
@@ -81,8 +81,7 @@ class GetCurrentUser(generics.GenericAPIView):
 				"last_name" : request.user.last_name,
 				"image" : image_url,
 				"shop" : shop,
-			}
-
+			})
 			body = json.dumps(user_details)
 			encrypted = Cipher.encrypt(body)
 			decoded = encrypted.decode("utf-8", "ignore")
