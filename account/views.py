@@ -13,6 +13,7 @@ from oauth2_provider.signals import app_authorized
 import json
 from urllib.parse import urlencode
 from django.templatetags.static import static
+from ipware import get_client_ip
 
 from account.serializers import AccountUserRegisterSerializer, AccountUserSerializer, ChangePasswordSerializer
 from .models import Account
@@ -55,6 +56,9 @@ class GetCurrentUser(generics.GenericAPIView):
 	queryset = Account.objects.all()
 
 	def get(self, request):
+		ip, is_routable = get_client_ip(request)
+		print("IP: "+ip)
+		print("is_routable: "+str(is_routable))
 		response = HttpResponse()
 		try :
 			account = Account.objects.get(id = request.user.id)
@@ -189,7 +193,13 @@ class TestApi(generics.GenericAPIView):
 	permission_classes = [AllowAny]
 
 	def get(self, request):
-
+		response = HttpResponse()
+		ip, is_routable = get_client_ip(request)
+		print("IP: "+ip)
+		print("is_routable: "+str(is_routable))
+		response.content = ip
+		response.status_code = 200
+		return response
 		cipher = AES_Cipher(
 			'qweasdzxcqweasdz',
 			'1011121314151617'.encode('utf-8')

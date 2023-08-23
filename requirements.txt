@@ -17,3 +17,4 @@ python-dotenv
 djangorestframework
 markdown
 pycryptodome
+django-ipware
