@@ -9,6 +9,8 @@ from django.forms.models import model_to_dict
 from django.core import serializers
 from item.models import Item
 
+from django.db import models, transaction
+
 from .serializers import OrderItemSerializer, RatingSerializer
 from .models import OrderItem, Rating
 
@@ -97,33 +99,36 @@ class OrderItemAccept(APIView):
     permission_classes = []
     # serializer_class = OrderItemSerializer
 
+    # The explicit transaction.commit() and transaction.rollback()
+    # are not strictly necessary here, as transactions are
+    # automatically committed or rolled back when the block exits.
+
     def post(self, request, id):
+        try:
+            with transaction.atomic():
+                order_item = OrderItem.objects.select_for_update().get(id=id)  # Lock the row for update
+                if order_item.status == "ORDERED":
+                    return Response({"errors": ["Item already ordered!"]}, status=status.HTTP_404_NOT_FOUND)
 
-        try :
+                item_stock = Item.objects.select_for_update().get(id=order_item.cart_item.item.id)
+                if item_stock.stock < order_item.cart_item.quantity:
+                    return Response({"errors": ["Not enough stock!"]}, status=status.HTTP_404_NOT_FOUND)
 
-            order_item = OrderItem.objects.filter(id = id)
-            order_item_obj = order_item.first()
+                order_item.status = "ORDERED"
+                order_item.save()
 
-            if(order_item_obj.status == "ORDERED"):
-                return Response({"errors" : ["Item already ordered!"]}, status=status.HTTP_404_NOT_FOUND)
+                item_stock.stock -= order_item.cart_item.quantity
+                item_stock.save()
 
-            item_stock = Item.objects.filter(id=order_item_obj.cart_item.item.id)
-            item_stock_obj = item_stock.first()
+            return Response(data=OrderItemSerializer(order_item).data, status=status.HTTP_200_OK)
 
-            if item_stock_obj.stock < order_item_obj.cart_item.quantity:
-                return Response({"errors" : ["Not enough stock!"]}, status=status.HTTP_404_NOT_FOUND)
-            
-            try :
-                # serializer.validated_data()
-                order_item.update(status="ORDERED")
-                item_stock.update(stock = F('stock')+(-order_item_obj.cart_item.quantity))
-                # data = serializers.serialize('json',order_item,)
-                return Response(data=order_item.values(), status=status.HTTP_200_OK)
-            except Exception as e:
-                print('%s' % type(e))
-                return Response({"errors" : ["OOPS! something went wrong"]}, status=status.HTTP_200_OK)
+        except OrderItem.DoesNotExist:
+            return Response({"errors": ["Order Item not found!"]}, status=status.HTTP_404_NOT_FOUND)
+        except Item.DoesNotExist:
+            return Response({"errors": ["Item not found!"]}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
-            return Response({"errors" : ["Item not found!"]}, status=status.HTTP_404_NOT_FOUND)
+            print('%s' % type(e))
+            return Response({"errors": ["OOPS! Something went wrong"]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 # class OrderItemAccept(generics.CreateAPIView):
